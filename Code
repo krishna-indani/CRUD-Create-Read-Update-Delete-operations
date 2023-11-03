@@ -1,0 +1,76 @@
+class Task:
+    def __init__(self, task_id, title, description):
+        self.task_id = task_id
+        self.title = title
+        self.description = description
+
+class TaskManager:
+    def __init__(self):
+        self.tasks = []
+        self.task_id_counter = 1
+
+    def create_task(self, title, description):
+        task = Task(self.task_id_counter, title, description)
+        self.tasks.append(task)
+        self.task_id_counter += 1
+
+    def list_tasks(self):
+        if not self.tasks:
+            print("No tasks found.")
+        else:
+            for task in self.tasks:
+                print(f"Task ID: {task.task_id}")
+                print(f"Title: {task.title}")
+                print(f"Description: {task.description}")
+                print("-" * 30)
+
+    def update_task(self, task_id, title, description):
+        for task in self.tasks:
+            if task.task_id == task_id:
+                task.title = title
+                task.description = description
+                print(f"Task ID {task_id} updated.")
+                return
+        print(f"Task ID {task_id} not found.")
+
+    def delete_task(self, task_id):
+        for task in self.tasks:
+            if task.task_id == task_id:
+                self.tasks.remove(task)
+                print(f"Task ID {task_id} deleted.")
+                return
+        print(f"Task ID {task_id} not found.")
+
+def main():
+    task_manager = TaskManager()
+
+    while True:
+        print("Task Management Application")
+        print("1. Create Task")
+        print("2. List Tasks")
+        print("3. Update Task")
+        print("4. Delete Task")
+        print("5. Exit")
+        choice = input("Enter your choice (1/2/3/4/5): ")
+
+        if choice == "1":
+            title = input("Enter task title: ")
+            description = input("Enter task description: ")
+            task_manager.create_task(title, description)
+        elif choice == "2":
+            task_manager.list_tasks()
+        elif choice == "3":
+            task_id = int(input("Enter task ID to update: "))
+            title = input("Enter updated title: ")
+            description = input("Enter updated description: ")
+            task_manager.update_task(task_id, title, description)
+        elif choice == "4":
+            task_id = int(input("Enter task ID to delete: "))
+            task_manager.delete_task(task_id)
+        elif choice == "5":
+            break
+        else:
+            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
+
+if __name__ == "__main__":
+    main()
